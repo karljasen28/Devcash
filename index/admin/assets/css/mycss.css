@@ -1,0 +1,9 @@
+body{
+	font-family: sans-serif;
+	
+}
+
+li:hover{
+	background-color: #ec4e20;
+	border-radius: 5px;
+}
