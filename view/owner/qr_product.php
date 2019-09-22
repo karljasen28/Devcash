@@ -58,25 +58,31 @@
     		margin-left: auto;
     		}
 
-    	.text{
-    		text-align: center;
-    		font-size: 22px;
+    	td{
+    		font-size: 20px;
     	}
     </style>
 </head>
 <body class="animsition">
 <div ng-controller="QR">
+    <div id="qrCode-form">
 	<div class="row">
-		<div class="container1" id="qrCode-form">
+		<div class="container1">
 				<div id="code"></div>
 		</div>
 	</div>
 	<br>
-	<div class="form-grpup">
-		<!-- <div class="text">Item: {{name}}</div>
-        <div class="text">Price: {{price}}</div>
-        <div class="text">Category: {{category}}</div> -->
-	</div>
+	<center>
+        <table>
+            <tr ng-repeat="qr in qr_datas">
+                <td>Item: {{qr.prod_name}}</td>
+            </tr>
+            <tr ng-repeat="qr in qr_datas">
+                <td>Price: ₱ {{qr.discounted_price}}</td>
+            </tr>
+        </table>
+    </center>
+</div>
 		<br>
 		<div style="text-align: center;">
 			<button ng-click="exportQR()" class="btn btn-success">Export</button>
@@ -143,6 +149,7 @@
 var myFirebase = angular.module('myFirebase', ['firebase']);
 myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
+    var qrdata = $firebaseArray(ref);
 
 	var user = JSON.parse(window.localStorage.getItem('user'));
 	var username = user.owner_username;
@@ -162,7 +169,7 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
 					.child("product/"+id)
 					.on('value', function(childSnapshot) {
 						$scope.datas = childSnapshot.val();
-                        // $scope.name.push(childSnapshot.val().service_name);
+                        
                         console.log($scope.name);
                         var reference = $scope.datas.qrCode.qr_reference;
                         var code = 'code';
@@ -174,17 +181,30 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
                                 colorLight : "#ffffff",
                                 correctLevel : QRCode.CorrectLevel.H
                             });
-						// window.localStorage.setItem("qrData", JSON.stringify(qrData));
+						
 					});
 			});
 		});
-		
-		// var qrData = JSON.parse(window.localStorage.getItem("qrData"));
-		// $scope.text = qrData.qr_code;
-  //       $scope.price = qrData.qr_price;
-  //       $scope.category = qrData.qr_category;
-  //       $scope.reference = qrData.qr_reference;
 
+		$scope.qr_datas = [];
+        ref.orderByChild("business/owner_username")
+            .equalTo(username)
+            .on('value', function(snap){
+                snap.forEach(function(childSnap){
+                    console.log(childSnap.val());
+
+                    angular.forEach(childSnap.val().business.product, function(data,key){
+                        data['id'] = key;
+                        console.log(key);
+
+                        if(id === key){
+                            $scope.qr_datas.push(data);
+                            console.log($scope.qr_datas);
+                        }
+                    })
+                })
+            })
+		
 		$scope.back = function() {
 			// window.localStorage.removeItem("qrData");
 			window.location = "/2/view/owner/landing_product.php";

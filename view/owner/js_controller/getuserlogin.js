@@ -3,6 +3,8 @@
 myFirebase.controller('GetUserLogin', function GetUserLogin($scope, $location, $firebaseArray, $firebaseObject){
 	
 	var ref = firebase.database().ref().child("datadevcash/owner");
+	var counts = $firebaseArray(ref);
+
 	var owner = JSON.parse(window.localStorage.getItem('user'));
 	var accounts = JSON.parse(window.localStorage.getItem('accountItem'));
 	var owner_key = JSON.parse(window.localStorage.getItem('owner_key'));
@@ -58,4 +60,64 @@ myFirebase.controller('GetUserLogin', function GetUserLogin($scope, $location, $
 	// 	}
 	// }
 
+	// Get the total Revenue
+	$scope.revenue = [];
+	$scope.total = 0;
+
+	ref.orderByChild("business/owner_username")
+		.equalTo(username)
+		.on('value', function(snap){
+			snap.forEach(function(childSnap){
+
+				// childSnap.forEach(function(innerSnapshot) {
+				// 	console.log(innerSnapshot.val());
+				// });
+
+				angular.forEach(childSnap.val().business.customer_transaction, function(data){
+					$scope.total += data.amount_due;					
+				});
+			})
+		})
+
+		$scope.emps = [];
+		$scope.employeeCount = 0;
+		ref.orderByChild("business/owner_username")
+			.equalTo(username)
+			.on('value', function(snap){
+				snap.forEach(function(childSnap){
+					angular.forEach(childSnap.val().business.employee, function(data){
+						$scope.emps.push(data);
+						$scope.employeeCount = $scope.emps.length;
+						console.log($scope.employeeCount);
+					})
+				})
+			})
+
+		$scope.prods = [];
+		$scope.prodsCount = 0;
+		ref.orderByChild("business/owner_username")
+			.equalTo(username)
+			.on('value', function(snap){
+				snap.forEach(function(childSnap){
+					angular.forEach(childSnap.val().business.product, function(data){
+						$scope.prods.push(data);
+						$scope.prodsCount = $scope.prods.length;
+						console.log($scope.prodsCount);
+					})
+				})
+			})
+
+		$scope.servs = [];
+		$scope.servsCount = 0;
+		ref.orderByChild("business/owner_username")
+			.equalTo(username)
+			.on('value', function(snap){
+				snap.forEach(function(childSnap){
+					angular.forEach(childSnap.val().business.services, function(data){
+						$scope.servs.push(data);
+						$scope.servsCount = $scope.servs.length;
+						console.log($scope.servsCount);
+					})
+				})
+			})
 });

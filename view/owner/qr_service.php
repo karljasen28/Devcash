@@ -59,20 +59,31 @@
     		margin-left: auto;
     		}
 
-    	.text{
-    		text-align: center;
-    		font-size: 22px;
+    	td{
+    		font-size: 20px;
     	}
     </style>
 </head>
 <body class="animsition">
 <div ng-controller="QR">
+    <div id="qrCode-form">
 	<div class="row">
-		<div class="container1" id="qrCode-form">
+		<div class="container1">
 				<div id="code"></div>
 		</div>
 	</div>
 	<br>
+    <center>
+        <table>
+            <tr ng-repeat="qr in qr_datas">
+                <td>Item: {{qr.service_name}}</td>
+            </tr>
+            <tr ng-repeat="qr in qr_datas">
+                <td>Price: ₱ {{qr.discounted_price}}</td>
+            </tr>
+        </table>
+    </center>
+</div>
 		<br>
 		<div style="text-align: center;">
 			<button ng-click="exportQR()" class="btn btn-success">Export</button>
@@ -136,6 +147,7 @@
 var myFirebase = angular.module('myFirebase', ['firebase']);
 myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
+    var qrdatas = $firebaseArray(ref);
 
 	var user = JSON.parse(window.localStorage.getItem('user'));
 	var username = user.owner_username;
@@ -170,10 +182,23 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
 			});
 		});
 
+        $scope.qr_datas = [];
         ref.orderByChild("business/owner_username")
             .equalTo(username)
             .on('value', function(snap){
-                console.log(snap.val());
+                snap.forEach(function(childSnap){
+                    console.log(childSnap.val());
+
+                    angular.forEach(childSnap.val().business.services, function(data,key){
+                        data['id'] = key;
+                        console.log(key);
+
+                        if(id === key){
+                            $scope.qr_datas.push(data);
+                            console.log($scope.qr_datas);
+                        }
+                    })
+                })
             })
 
 		$scope.back = function() {
