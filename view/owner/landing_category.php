@@ -56,10 +56,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -225,13 +224,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="has-sub">
@@ -304,7 +302,6 @@
                             <table class="table table-light table-hover dt-responsive">
                                 <thead style="background-color: #F39C12;color: #fefefe;"> 
                                     <tr>
-                                        <th>Image</th>
                                         <th>Category Name</th>
                                         <th>Action</th>
                                     </tr>
@@ -312,7 +309,6 @@
 
                                 <tbody>
                                     <tr ng-repeat="cat in categories.slice().reverse() | filter:search">
-                                        <td></td>
                                         <td>{{cat.category_name}}</td>
                                         <td>
                                             <a href="edit_category.php?id={{cat.id}}" class="btn btn-primary">Edit</a>

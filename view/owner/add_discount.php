@@ -65,10 +65,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -235,13 +234,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="has-sub">
@@ -295,8 +293,7 @@
             </aside>
             <!-- END HEADER DESKTOP-->
 
-          <!-- MAIN CONTENT-->
-            <div class="main-content">
+        <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
@@ -307,52 +304,49 @@
                             </div>
                         </div><!-- END OF ROW --><br>
                         <div class="row">
-                            <div class="container" ng-controller="FormController">
-                                <form class="form-horizontal" onsubmit="myForm()" name="drop_list" id="f1" ng-submit="addDiscount()">
+                            <div class="container">
+                                <div ng-controller="FormController">
+                                <form class="form-horizontal" ng-submit="addService()">
                                     <div class="form-group">
                                         <label class="control-label">Discount Code</label>
                                             <input class="form-control col-sm-5" type="text" name="disc_code" ng-model="disc_code">
-                                    </div>    
+                                    </div>
 
                                     <div class="form-group">    
                                         <label class="control-label">Discunt Type: </label>
-                                            <input type=radio name=choice value="Percentage" onclick="radio_check()" ng-model="disc_result"> Percent
-                                            <input type=radio name=choice value="Amount" onclick="radio_check()" ng-model="disc_result"> Amount
+                                            <input type=radio value="Percentage"  ng-model="disc_result"> Percent
+                                            <input type=radio value="Amount" ng-model="disc_result"> Amount
                                     </div>
-                                    <div class="form-group" id="l1">
-                                        <label class="control-label">Percent Value</label>
-                                            <input class="form-control col-sm-5" type="number" name="disc_val" step="0.01" id="myPercent" ng-mode="disc_val">  
-                                    </div>        
-                                            
+
                                     <div class="form-group" id="l2">
-                                        <label class="control-label">Amount Value</label>
-                                            <input class="form-control col-sm-5" type="number" step="0.01" name="disc_val" ng-model="disc_val">
-                                    </div>
+                                        <label class="control-label">Discount Value</label>
+                                            <input class="form-control col-sm-5" type="number" step="0.01" ng-model="disc_val">
+                                    </div>  
 
                                     <div class="form-group">
                                         <label class="control-label">Date Started</label>
-                                            <input class="form-control col-sm-5" type="date" name="disc_started" ng-model="disc_started">
+                                            <input class="form-control col-sm-5" type="date" ng-model="disc_started">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Date End</label>
-                                            <input class="form-control col-sm-5" type="date" name="disc_end" ng-model="disc_end">
+                                            <input class="form-control col-sm-5" type="date" ng-model="disc_end">
                                     </div>
-                                    <br>
+
                                     <div class="form-group">
-                                        <input class="btn col-sm-2" type="submit" name="add" value="Save" style="background-color: #ec4e20;color: white;">
-                                        <a class="btn btn-danger col-sm-2" href="landing_discount.php">Cancel</a></button>
+                                        <button style="background-color: #ec4e20;color: white;" ng-click="addDiscount()" class="btn col-sm-2" type="submit">Save</button>
+                                        <a class="btn btn-danger col-sm-2" href="landing_discount.php">Cancel</a>
                                     </div>
                                 </form>
+                                </div>
                             </div>
                         </div>
-                    </div><!-- END OF CONTAINER FLUID -->
-                </div><!-- END OF SECTION CONTENT -->
+                    </div>
+                </div>
             </div><!-- END OF MAIN CONTENT -->
-
-        <!-- DO NOT ERASE -->    
-        </div><!-- END PAGE CONTAINER -->
-    </div><!-- END OF PAGE WRAPPER -->
+    <!-- DO NOT ERASE -->    
+    </div>
+</div>
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
@@ -382,46 +376,7 @@
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
-    <script>
-        $('.mydatatable').DataTable();
-    </script>
-    <script>
-        var loadfile = function(event){
-            var image = document.getElementById('img-output');
-            image.src = URL.createObjectURL(event.target.files[0]);
-        }
-    </script>
-    <script>
-        document.getElementById("l1").hidden=true;
-        document.getElementById("l2").hidden=true;
-        function radio_check()
-        {
-        if(document.drop_list.choice[1].checked){
-        document.getElementById("l1").hidden=true;
-        document.getElementById("l2").hidden=false;
-        }else{
-        document.getElementById("l1").hidden=false;
-        document.getElementById("l2").hidden=true;
-        }
 
-
-        }
-
-        function data_check()
-        {
-        var str=document.getElementById("l1").value;
-        if(str.length <=0){
-        alert("Please select one option ");
-        }else{
-        document.forms['drop_list'].submit();// working
-        }
-        }
-    </script>
-
-    <script>
-        document.getElementById('myForm').onsubmit = function() {
-        var percent = document.getElementById('myPercent').value / 100;
-    }
     </script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>

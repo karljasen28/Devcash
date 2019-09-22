@@ -5,7 +5,7 @@ myFirebase.controller('EditEmployee', function EditEmployee($scope, $location, $
 
 	var user = JSON.parse(window.localStorage.getItem('user'));
 	var username = user.owner_username;
-
+	var ownerKey = JSON.parse(window.localStorage.getItem('ownerKey'));
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 
@@ -32,11 +32,11 @@ myFirebase.controller('EditEmployee', function EditEmployee($scope, $location, $
 		$scope.emp_fname = employeeData.emp_fname;
 		$scope.emp_lname = employeeData.emp_lname;
 		// $scope.emp_email = employeeData.emp_email;
-		$scope.emp_mobileno = employeeData.emp_mobileno;
+		$scope.emp_mobileno = employeeData.emp_phone;
 		// $scope.emp_address = employeeData.emp_addr;
 		$scope.emp_task = employeeData.emp_task;
 		$scope.emp_status = employeeData.emp_status;
-
+		$scope.emp_pic = employeeData.emp_image;
 		// window.reload();
 
 		$scope.editEmployee = function() {
@@ -99,51 +99,4 @@ myFirebase.controller('EditEmployee', function EditEmployee($scope, $location, $
 			window.localStorage.removeItem("employeeData");
 			window.location = "/2/view/owner/landing_employee.php";
 		}
-
-
-		// ref.orderByChild("business/owner_username")
-		// 	.equalTo(username)
-		// 	.on('value', function(snapshot) {
-
-		// 		snapshot.forEach(function(childSnap) {
-		// 			// .orderByChild("account/acct_uname")
-		// 				// .equalTo(data.account.acct_uname)
-
-		// 			ref.child(childSnap.key)
-		// 				.child("business")
-		// 				.child("employee/"+id)
-		// 				.on('value', function(innerSnapshot) {
-		// 					innerSnapshot.ref.update(editEmployeeItem);
-		// 					alert("Update Success");
-		// 					window.location = "/2/view/owner/landing_employee.php";
-		// 				});
-		// 		})
-		// 	})
-	
-
-	// ref.orderByChild("business/owner_username")
-	// 	.equalTo(username)
-	// 	.on('value', function(snap) {
-	// 		// console.log(snap.val());
-
-	// 		snap.forEach(function(childSnap) {
-	// 			childSnap.forEach(function(innerChild) {
-
-	// 				angular.forEach(innerChild.val().employee, function(child, key) {
-	// 					// console.log(child["id"] =);
-	// 					// console.log(key);
-	// 					child["id"] = key
-	// 					$scope.employees.push(child);
-	// 					$scope.emp_fname = child.emp_fname;
-	// 					$scope.emp_lname = child.emp_lname;
-	// 					$scope.emp_email = child.emp_email;
-	// 					$scope.emp_mobileno = child.emp_mobileno;
-	// 					$scope.emp_address = child.emp_addr;
-	// 					$scope.emp_bdate = child.emp_bdate;
-	// 					$scope.emp_task = child.emp_task;
-	// 					$scope.emp_status = child.emp_status;
-	// 				});
-	// 			});
-	// 		});
-	// });
 });

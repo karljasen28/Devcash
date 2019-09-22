@@ -29,6 +29,7 @@ myFirebase.controller('RegisterForm', function RegisterForm($scope, $location, $
 		var no_employee = $scope.no_employee;
 		var enterprise_address = $scope.enterprise_address;
 		var enterprise_permit = $scope.enterprise_permit;
+		var enterprise_tin = $scope.enterprise_tin;
 
 		var accountItem = {
 			acct_passw: password,
@@ -57,7 +58,8 @@ myFirebase.controller('RegisterForm', function RegisterForm($scope, $location, $
 			ent_telno: '',
 			ent_permitno: enterprise_permit,
 			ent_cat: category,
-			ent_email: ''
+			ent_email: '',
+			ent_tin: enterprise_tin
 		}
 
 		console.log(accountID);
@@ -72,6 +74,7 @@ myFirebase.controller('RegisterForm', function RegisterForm($scope, $location, $
 				owner_mobileno: mobileno,
 				owner_username: username,
 				owner_gender: gender,
+				owner_image: ""
 			}
 		}
 		// $scope.owner.$add(ownerItem);

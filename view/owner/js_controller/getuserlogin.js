@@ -12,6 +12,7 @@ myFirebase.controller('GetUserLogin', function GetUserLogin($scope, $location, $
 
 	var username = owner.owner_username;
 
+	$scope.profile = owner.owner_image;
 	$scope.owner_name = owner.owner_fname + " " + owner.owner_lname;
 
 	$scope.owner_fname = owner.owner_fname;
@@ -29,6 +30,7 @@ myFirebase.controller('GetUserLogin', function GetUserLogin($scope, $location, $
 	$scope.ent_contact = owner.enterprise.ent_telno;
 	$scope.ent_email = owner.enterprise.ent_email;
 	$scope.ent_permit = owner.enterprise.ent_permitno;
+	$scope.ent_tin = owner.enterprise.ent_tin;
 
 	// console.log(owner);
 	// console.log(accounts);
@@ -55,4 +57,5 @@ myFirebase.controller('GetUserLogin', function GetUserLogin($scope, $location, $
 	// 		acct_status:
 	// 	}
 	// }
+
 });

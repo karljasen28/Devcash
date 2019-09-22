@@ -67,7 +67,7 @@
 <body class="animsition">
 <div ng-controller="QR">
 	<div class="row">
-		<div class="container1">
+		<div class="container1" id="qrCode-form">
 				<div id="code"></div>
 		</div>
 	</div>
@@ -79,7 +79,7 @@
 	</div>
 		<br>
 		<div style="text-align: center;">
-			<a class="btn" href="#" style="color: white;background-color: #ec4e20;">Export QR</a>
+			<button ng-click="exportQR()" class="btn btn-success">Export</button>
 			<button class="btn btn-info" ng-click="back()">back to QR Page</button>
 		</div>
 </div>
@@ -189,6 +189,15 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
 			// window.localStorage.removeItem("qrData");
 			window.location = "/2/view/owner/landing_product.php";
 		}
+
+        $scope.exportQR = function(){
+            var printContents = document.getElementById('qrCode-form').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
 });
 
     </script>

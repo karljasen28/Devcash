@@ -55,10 +55,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -224,13 +223,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="has-sub">
@@ -303,25 +301,25 @@
                     <div class="input-group margin-bottom-sm">                  
                        <input type="text" ng-model="search" id="search" class="form-control col-sm-3" placeholder="Search..."><span class="input-group-addon"><i class="fa fa-search"></i></span>
 
-                            <label class="control-label" for="sortby" style="margin-left: 20px;">Sort By: </label> 
+                            <!-- <label class="control-label" for="sortby" style="margin-left: 20px;">Sort By: </label> 
                             <select class="form-control col-sm-2" id="sortby" style="margin-left: 5px;" ng-model="sortby">
                                 <option></option>
                                 <option ng-repeat="prod in products">{{prod.category.category_name}}</option>
                             </select>
-                    </div>
+ -->                    </div>
                     </div>                            
                             <table class="table table-light table-hover dt-responsive">
                                 <thead style="background-color: #F39C12;color: #fefefe;"> 
                                     <tr>
-                                        <!-- <th>Image</th> -->
+                                        <th>Image</th>
                                         <th>Name</th>
-                                        <th>Category</th>
+                                        <!-- <th>Category</th> -->
                                         <th>Discount</th>
                                         <th>Price</th>
                                         <th>Disc. Price</th>
                                         <th>Stock</th>
-                                        <th>Condition</th>
-                                        <th>Status</th>
+                                        <!-- <th>Condition</th> -->
+                                        <!-- <th>Status</th> -->
                                         <th>QR Code</th>
                                         <th>Action</th>
                                     </tr>
@@ -329,15 +327,15 @@
 
                                 <tbody>
                                     <tr ng-repeat="prod in products.slice().reverse() | filter:search | filter:sortby">
-                                        <!-- <td></td> -->
+                                        <td><img src="{{prod.prod_image}}" width="80" class="image img-cir"></td>
                                         <td>{{prod.prod_name}}</td>
-                                        <td>{{prod.category.category_name}}</td>
-                                        <td>{{prod.discount.disc_value}}</td>
+                                        <!-- <td>{{prod.category.category_name}}</td> -->
+                                        <td> ₱ {{prod.discount.disc_value}}</td>
                                         <td> ₱ {{prod.prod_price}}</td>
                                         <td> ₱ {{prod.discounted_price}}</td>
                                         <td>{{prod.prod_stock}}</td>
-                                        <td>{{prod.productCondition.cond_name}}</td>
-                                        <td>{{prod.prod_status}}</td>
+                                        <!-- <td>{{prod.productCondition.cond_name}}</td> -->
+                                        <!-- <td>{{prod.prod_status}}</td> -->
                                         <td><a href="qr_product.php?id={{prod.id}}">View</a></td>
                                         <td>
                                             <a href="edit_product.php?id={{prod.id}}"><button class="btn btn-primary">Edit</button></a>
@@ -346,6 +344,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <br><br>
                         </div>
                         </div>    
                         </div>

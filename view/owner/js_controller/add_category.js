@@ -3,7 +3,6 @@
 myFirebase.controller('FormController', function FormController($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
 	$scope.category = $firebaseArray(ref);
-	$scope.data = [];
 	$scope.db = null;
 
 	var user = JSON.parse(window.localStorage.getItem('user'));
@@ -25,29 +24,46 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 				snap.forEach(function(data) {
 					console.log(data.key);
 					$scope.ownerKey = data.key;
-					angular.forEach(data.val().business.category, function(shot){
-						console.log(data);
-						$scope.data = shot.category_name;
-					});
 				});
 			});
 
 			var categoryRef = firebase.database().ref().child("datadevcash/owner/"+$scope.ownerKey+"/business/category");
 			$scope.db = $firebaseArray(categoryRef);
 
+		$scope.data = [];
+		ref.orderByChild("business/owner_username")
+			.equalTo(username)
+			.on('value', function(snap){
+				snap.forEach(function(childSnap){
+					angular.forEach(childSnap.val().business.category, function(data){
+						$scope.data.push(data.category_name);
+						console.log($scope.data);
+					})
+				})
+			})
 
-			if(cat_name == null){
+		if(cat_name == null){
 				alert("Invalid category Name");
+				return
 			}
-			else{
-				if(cat_name === $scope.data) {
-					alert("Category already exist");
-				}
-				else{
-					$scope.db.$add(categoryItem);
-					alert('Success');
-					window.location = "/2/view/owner/landing_category.php";
-				}
+		if ($scope.data.length > 0) {
+			// we got items inside array
+			console.log($scope.data);
+
+			for(var i = 0; i < $scope.data.length; i++) {
+				if ($scope.data[i] === cat_name) {
+					alert(cat_name+" is already exist");
+					return;
+				}	
 			}
+			$scope.db.$add(categoryItem);
+			alert("Category "+cat_name+" Item Added");
+			window.location = "/2/view/owner/landing_category.php";
+		}
+		else {
+			$scope.db.$add(categoryItem);
+			alert("Category "+cat_name+" Item Added");
+			window.location = "/2/view/owner/landing_category.php";
+		}
 	}
 });

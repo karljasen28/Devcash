@@ -73,11 +73,6 @@
 		</div>
 	</div>
 	<br>
-	<div class="form-grpup">
-		<!-- <div class="text">Item: {{name}}</div>
-        <div class="text">Price: {{price}}</div>
-        <div class="text">Category: {{category}}</div> -->
-	</div>
 		<br>
 		<div style="text-align: center;">
 			<button ng-click="exportQR()" class="btn btn-success">Export</button>
@@ -148,7 +143,7 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
     $scope.datas = [];
-    $scope.name = [];
+
 	ref.orderByChild("business/owner_username")
 		.equalTo(username)
 		.on('value', function(snapshot) {
@@ -159,9 +154,8 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
 					.child("business")
 					.child("services/"+id)
 					.on('value', function(childSnapshot) {
-						$scope.datas = childSnapshot.val();
-                        // $scope.name.push(childSnapshot.val().service_name);
-                        console.log($scope.name);
+						$scope.datas = childSnapshot.val();                        
+                        $scope.name = $scope.datas.qrCode.qr_code;
                         var reference = $scope.datas.qrCode.qr_reference;
                         var code = 'code';
                         new QRCode(document.getElementById("code"), {
@@ -172,16 +166,15 @@ myFirebase.controller('QR', function QR($scope, $location, $firebaseArray, $fire
                                 colorLight : "#ffffff",
                                 correctLevel : QRCode.CorrectLevel.H
                             });
-						// window.localStorage.setItem("qrData", JSON.stringify(qrData));
 					});
 			});
 		});
-		
-		// var qrData = JSON.parse(window.localStorage.getItem("qrData"));
-		// $scope.text = qrData.qr_code;
-  //       $scope.price = qrData.qr_price;
-  //       $scope.category = qrData.qr_category;
-  //       $scope.reference = qrData.qr_reference;
+
+        ref.orderByChild("business/owner_username")
+            .equalTo(username)
+            .on('value', function(snap){
+                console.log(snap.val());
+            })
 
 		$scope.back = function() {
 			// window.localStorage.removeItem("qrData");

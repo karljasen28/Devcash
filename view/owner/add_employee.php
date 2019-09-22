@@ -57,10 +57,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -224,13 +223,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                   <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="has-sub">
@@ -298,22 +296,22 @@
                         <div class="row" ng-controller="FormController">
                             <div class="container">
                                 <form class="form-horizontal" ng-submit="addEmployee()">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <img src="images/fa fa-user-circle.png" id="img-output" width="100">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Upload Image</label>
-                                            <input class="form-control col-sm-4" type="file" name="emp_img" onchange="loadfile(event)" ng-model="emp_img">
-                                    </div>
+                                            <input class="form-control col-sm-4" type="file" onchange="loadfile(event)" ng-model="pic" id="pic">
+                                    </div> -->
 
                                     <div class="form-group">
                                         <label class="control-label">Employee's First Name</label>
-                                            <input class="form-control col-sm" type="text" name="emp_fname" ng-model="emp_fname">
+                                            <input class="form-control col-sm-5" type="text" name="emp_fname" ng-model="emp_fname">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Employee's Last Name</label>
-                                            <input class="form-control col-sm" type="text" name="emp_lname" ng-model="emp_lname">
+                                            <input class="form-control col-sm-5" type="text" name="emp_lname" ng-model="emp_lname">
                                     </div>
 
                                     <div class="form-group">
@@ -409,6 +407,7 @@
         <!-- TODO: Add SDKs for Firebase products that you want to use
                  https://firebase.google.com/docs/web/setup#config-web-app -->
         <!-- Add this to enable firebase database to our application -->
+        <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-storage.js"></script>
         <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-database.js"></script>
         <!-- Load angularfire -->
         <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>

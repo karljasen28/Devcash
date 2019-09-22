@@ -2,6 +2,7 @@
 
 myFirebase.controller('FormController', function FormController($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
+	var storageRef = firebase.storage();
 	$scope.service = $firebaseArray(ref);
 	$scope.db = null;
 	$scope.dbqr = null;
@@ -53,6 +54,14 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 		var qr_code = $scope.serv_name;
 		var qr_price = $scope.serv_price;
 
+		var setProfile = pic.files[0];
+		if(setProfile == null){
+			alert("Image must be provided");
+		}
+		else{
+		var upload = storageRef.ref("Service/" + ( + new Date() ) + setProfile.name);
+		}
+		
 		if(serv_disc === 0){
 			var serv_disc_price = serv_price;
 		}
@@ -142,17 +151,58 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 				}	
 			}
 
-			$scope.dbqr.$add(qr);
-			$scope.db.$add(serviceItem);
-			alert("Service Added Successfully");
-			window.location = "/2/view/owner/landing_service.php";
+			// $scope.dbqr.$add(qr);
+			// $scope.db.$add(serviceItem);
+			// alert("Service Added Successfully");
+			// window.location = "/2/view/owner/landing_service.php";
+
+			upload.put(setProfile)
+	        .then( setProfile => setProfile.ref.getDownloadURL() )
+	        .then( url => {
+	            serviceRef.push({
+	            	qrCode: qr,
+	            	category: category,
+	            	discount: discItem,
+	                service_image: url,
+	                category: category,
+					discount: discItem,
+					qrCode: qrcode,
+					service_name: serv_name,
+					service_price: serv_price,
+					discounted_price: serv_disc_price,
+					service_status: serv_status,
+
+	            });
+	            alert("Service Item Added");
+	            window.location = "/2/view/owner/landing_service.php";
+	        });
 		}
 		else {
 			// we add the item if not duplicate.
-			$scope.dbqr.$add(qr);
-			$scope.db.$add(serviceItem);
-			alert("Service Added Successfully");
-			window.location = "/2/view/owner/landing_service.php";
+			// $scope.dbqr.$add(qr);
+			// $scope.db.$add(serviceItem);
+			// alert("Service Added Successfully");
+			// window.location = "/2/view/owner/landing_service.php";
+			upload.put(setProfile)
+	        .then( setProfile => setProfile.ref.getDownloadURL() )
+	        .then( url => {
+	            serviceRef.push({
+	            	qrCode: qr,
+	            	category: category,
+	            	discount: discItem,
+	                service_image: url,
+	                category: category,
+					discount: discItem,
+					qrCode: qrcode,
+					service_name: serv_name,
+					service_price: serv_price,
+					discounted_price: serv_disc_price,
+					service_status: serv_status,
+
+	            });
+	            alert("Service Item Added");
+	            window.location = "/2/view/owner/landing_service.php";
+	        });
 		}
 		
 	}

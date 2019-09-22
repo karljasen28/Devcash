@@ -57,10 +57,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -224,13 +223,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="has-sub">
@@ -297,13 +295,13 @@
                                 <div class="row">
                                     <div class="container" ng-controller="EditCategory">
                                         <form class="form-horizontal" name="drop_list" id="f1" method="POST">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <img src="images/fa fa-user-circle.png" id="img-output" width="100">
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Upload Image</label>
                                                     <input class="form-control col-sm-4" type="file" name="emp_img" onchange="loadfile(event)">
-                                            </div>
+                                            </div> -->
 
                                             <div class="form-group">
                                                 <label class="control-label">Category Name</label>

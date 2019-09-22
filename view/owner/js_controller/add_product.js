@@ -1,7 +1,7 @@
-	'use strict';
-
+'use strict';
 myFirebase.controller('FormController', function FormController($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
+	var storageRef = firebase.storage();
 	$scope.product = $firebaseArray(ref);
 	$scope.db = null;
 	$scope.dbqr = null;
@@ -60,6 +60,14 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 		var prod_cond_count = 0;
 		
 		var prod_disc = parseFloat($scope.prod_disc);
+
+		var setProfile = pic.files[0];
+		if(setProfile == null){
+			alert("Image must be provided");
+		}
+		else{
+		var upload = storageRef.ref("Product/" + ( + new Date() ) + setProfile.name);
+		}
 
 		if(prod_disc === 0){
 			var prod_disc_price = prod_price;
@@ -169,18 +177,78 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 				}
 			}
 
-			$scope.dbqr.$add(qrItem);	
-			$scope.db.$add(productItem);
-			alert('Success');
-			window.location = "/2/view/owner/landing_product.php";
-			window.location = "/2/view/owner/landing_product.php";
+			// $scope.dbqr.$add(qrItem);	
+			// $scope.db.$add(productItem);
+			// alert('Success');
+			// window.location = "/2/view/owner/landing_product.php";
+			// window.location = "/2/view/owner/landing_product.php";
+
+			upload.put(setProfile)
+	        .then( setProfile => setProfile.ref.getDownloadURL() )
+	        .then( url => {
+	            productRef.push({
+	            	qrCode: qrcodeItem,
+	            	category: category,
+	            	discount: discount,
+	            	productCondition: productCondition,
+	                prod_image: url,
+	                category: category,
+					discount: discount,
+					qrCode: qrcodeItem,
+					productCondition: productCondition,
+					prod_name: prod_name,
+					prod_brand: prod_brand,
+					prod_price: prod_price,
+					discounted_price: prod_disc_price,
+					prod_expdate: prod_exp_date,
+					prod_stock: prod_stock,
+					prod_rop: prod_rop,
+					prod_status: prod_status,
+					prod_unitof_measure: prod_unit,
+					prod_reference: prod_name + prod_exp_date
+
+	            });
+	            $scope.dbqr.$add(qrItem);
+	            alert("Product Item Added");
+	            window.location = "/2/view/owner/landing_product.php";
+	        });
 		}
 		else {
-			$scope.dbqr.$add(qrItem);	
-			$scope.db.$add(productItem);
-			alert('Success');
-			window.location = "/2/view/owner/landing_product.php";
-			window.location = "/2/view/owner/landing_product.php";
+			// $scope.dbqr.$add(qrItem);	
+			// $scope.db.$add(productItem);
+			// alert('Success');
+			// window.location = "/2/view/owner/landing_product.php";
+			// window.location = "/2/view/owner/landing_product.php";
+
+			upload.put(setProfile)
+	        .then( setProfile => setProfile.ref.getDownloadURL() )
+	        .then( url => {
+	            productRef.push({
+	            	qrCode: qrcodeItem,
+	            	category: category,
+	            	discount: discount,
+	            	productCondition: productCondition,
+	                prod_image: url,
+	                category: category,
+					discount: discount,
+					qrCode: qrcodeItem,
+					productCondition: productCondition,
+					prod_name: prod_name,
+					prod_brand: prod_brand,
+					prod_price: prod_price,
+					discounted_price: prod_disc_price,
+					prod_expdate: prod_exp_date,
+					prod_stock: prod_stock,
+					prod_rop: prod_rop,
+					prod_status: prod_status,
+					prod_unitof_measure: prod_unit,
+					prod_reference: prod_name + prod_exp_date
+
+	            });
+	            $scope.dbqr.$add(qrItem);
+	            alert("Product "+prod_name+" Item Added");
+	            window.location = "/2/view/owner/landing_product.php";
+	        });
 		}
 	}
 });

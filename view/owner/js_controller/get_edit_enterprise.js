@@ -17,6 +17,7 @@ myFirebase.controller('EditEnterprise', function EditEnterprise($scope, $locatio
 		$scope.ent_contact = user.enterprise.ent_telno;
 		$scope.ent_email = user.enterprise.ent_email;
 		$scope.ent_permit = user.enterprise.ent_permitno;
+		$scope.ent_tin = user.enterprise.ent_tin;
 
 		$scope.editEnterprise = function() {
 			var id = urlParams.get('id');

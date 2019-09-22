@@ -2,9 +2,12 @@
 
 myFirebase.controller('EditService', function EditService($scope, $location, $firebaseArray, $firebaseObject) {
 	var ref = firebase.database().ref().child("datadevcash/owner");
-
+	var refStorage = firebase.storage();
 	var user = JSON.parse(window.localStorage.getItem('user'));
 	var username = user.owner_username;
+	var ownerKey = JSON.parse(window.localStorage.getItem('owner_key'));
+	$scope.ownerKey = ownerKey;
+	console.log($scope.ownerKey);
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
@@ -69,6 +72,8 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 		$scope.service_cat = serviceData.category.category_name;
 		$scope.service_price = serviceData.service_price;
 		$scope.service_disc = serviceData.discount.disc_value;
+		$scope.service_pic = serviceData.service_image;
+		$scope.service_status = serviceData.service_status;
 
 		// window.reload();
 
@@ -77,12 +82,16 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 			var serv_cat = $scope.serv_cat;
 			var serv_price = $scope.serv_price;
 			var serv_disc = $scope.serv_disc;
-			var serv_status = "Available";
+			var serv_status = $scope.serv_status;
 
 			var serv_disc_price = serv_price - serv_disc;
 
 			var id = urlParams.get('id');
 
+			
+			// var setProfile = pic.files[0];
+   //  		var upload = refStorage.ref("Service/" + ( + new Date() ) + setProfile.name);
+			
 			if (serv_name === undefined) {
 				serv_name = $scope.service_name;
 			}
@@ -104,6 +113,10 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 			}
 			else{
 				var serv_disc_price = serv_price - serv_disc;
+			}
+
+			if(serv_status === undefined){
+				serv_status = $scope.service_status;
 			}
 
 			var categoryItem = {
@@ -129,7 +142,7 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 				service_name: serv_name,
 				service_price: serv_price,
 				discounted_price: serv_disc_price,
-				service_status: serv_status,
+				service_status: serv_status
 			}
 
 			var qrcodeItem = {
@@ -138,6 +151,36 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 				qr_price: serv_price,
 				qr_reference: serv_name + serv_price
 			}
+
+			$scope.data = [];
+			ref.orderByChild("business/owner_username")
+				.equalTo(username)
+				.on('value', function(snapshot) {
+
+					snapshot.forEach(function(childSnap) {
+						// .orderByChild("account/acct_uname")
+							// .equalTo(data.account.acct_uname)
+
+						ref.child(childSnap.key)
+							.child("business")
+							.child("services/"+id)
+							.on('value', function(innerSnapshot) {
+								innerSnapshot.ref.update(editServiceItem);
+								// console.log(innerSnapshot.val());
+								// $scope.data = innerSnapshot.val().service_name;
+								// console.log($scope.data);
+
+								// if($scope.data.length > 0) {
+								// 	for(var i=0;i < $scope.data.length;i++) {
+								// 		if($scope.data[i] === serv_name) {
+								// 			alert(serv_name+" item already exist");
+								// 			return;
+								// 		}
+								// 	}
+								// }
+							});
+					})
+				});
 
 			ref.orderByChild("business/owner_username")
 				.equalTo(username)
@@ -152,76 +195,13 @@ myFirebase.controller('EditService', function EditService($scope, $location, $fi
 					});
 				});
 
-			ref.orderByChild("business/owner_username")
-				.equalTo(username)
-				.on('value', function(snapshot) {
-
-					snapshot.forEach(function(childSnap) {
-						// .orderByChild("account/acct_uname")
-							// .equalTo(data.account.acct_uname)
-
-						ref.child(childSnap.key)
-							.child("business")
-							.child("services/"+id)
-							.on('value', function(innerSnapshot) {
-								innerSnapshot.ref.update(editServiceItem);
-								window.localStorage.removeItem("serviceData");
-								window.location = "/2/view/owner/landing_service.php";
-							});
-					})
-				});
 			alert("Update Success");
+			window.localStorage.removeItem("serviceData");
+			window.location = "/2/view/owner/landing_service.php";
 		}
 
 		$scope.back = function() {
 			window.localStorage.removeItem("serviceData");
 			window.location = "/2/view/owner/landing_service.php";
 		}
-
-
-		// ref.orderByChild("business/owner_username")
-		// 	.equalTo(username)
-		// 	.on('value', function(snapshot) {
-
-		// 		snapshot.forEach(function(childSnap) {
-		// 			// .orderByChild("account/acct_uname")
-		// 				// .equalTo(data.account.acct_uname)
-
-		// 			ref.child(childSnap.key)
-		// 				.child("business")
-		// 				.child("employee/"+id)
-		// 				.on('value', function(innerSnapshot) {
-		// 					innerSnapshot.ref.update(editEmployeeItem);
-		// 					alert("Update Success");
-		// 					window.location = "/2/view/owner/landing_employee.php";
-		// 				});
-		// 		})
-		// 	})
-	
-
-	// ref.orderByChild("business/owner_username")
-	// 	.equalTo(username)
-	// 	.on('value', function(snap) {
-	// 		// console.log(snap.val());
-
-	// 		snap.forEach(function(childSnap) {
-	// 			childSnap.forEach(function(innerChild) {
-
-	// 				angular.forEach(innerChild.val().employee, function(child, key) {
-	// 					// console.log(child["id"] =);
-	// 					// console.log(key);
-	// 					child["id"] = key
-	// 					$scope.employees.push(child);
-	// 					$scope.emp_fname = child.emp_fname;
-	// 					$scope.emp_lname = child.emp_lname;
-	// 					$scope.emp_email = child.emp_email;
-	// 					$scope.emp_mobileno = child.emp_mobileno;
-	// 					$scope.emp_address = child.emp_addr;
-	// 					$scope.emp_bdate = child.emp_bdate;
-	// 					$scope.emp_task = child.emp_task;
-	// 					$scope.emp_status = child.emp_status;
-	// 				});
-	// 			});
-	// 		});
-	// });
 });

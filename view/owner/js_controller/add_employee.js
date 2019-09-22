@@ -4,7 +4,7 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 	var ref = firebase.database().ref().child("datadevcash/owner");
 	// var dbRef = firebase.database().ref().child("datadevcash");
 	$scope.accountID = firebase.database().ref().push().getKey();
-
+	var storageRef = firebase.storage();
 	$scope.employee = $firebaseArray(ref);
 	// $scope.db = $firebaseArray(dbRef);
 	$scope.db = null;
@@ -35,6 +35,14 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 		var emp_acct_email = "";
 		var accountID = ""+$scope.accountID;
 
+		// var setProfile = pic.files[0];
+		// if(setProfile == null){
+		// 	alert("Image must be provided");
+		// }
+		// else{
+		// var upload = storageRef.ref("Employee/" + ( + new Date() ) + setProfile.name);
+		// }
+
 		var empAccount = {
 			acct_passw: emp_acct_passw,
 			acct_status: status,
@@ -56,7 +64,8 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 			emp_fname : fname,
 			emp_lname : lname,
 			emp_gender: gender,
-			emp_mobileno : mobileno,
+			emp_phone : mobileno,
+			emp_username: emp_acct_uname,
 			emp_task: task,
 			emp_workfor: username
 		}
@@ -68,11 +77,6 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 				snap.forEach(function(childSnapshot) {
 					$scope.ownerKey = childSnapshot.key;
 					console.log(childSnapshot.key);
-					angular.forEach(childSnapshot.val().business.employee, function(data) {
-						console.log(data);
-						$scope.data = data.emp_fname + data.emp_lname;
-						console.log($scope.data);
-					});
 				});
 			});
 		// we insert to owner record
@@ -82,22 +86,89 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 	var accountRef = firebase.database().ref().child("datadevcash/owner/"+$scope.ownerKey+"/business/account");
 	$scope.dbAccount = $firebaseArray(accountRef);
 
-	var name = fname + lname;
+
+	$scope.data = []
+	ref.orderByChild("business/owner_username")
+		.equalTo(username)
+		.once('value', function(snap){
+			snap.forEach(function(childSnap){
+				angular.forEach(childSnap.val().business.employee, function(data){
+					$scope.data.push(data.emp_fname + data.emp_lname);
+					console.log($scope.data);
+				})
+			})
+		})	
+	var name = fname + lname;	
 
 	if(fname == null || lname == null || gender == null || task == null) {
 		alert("All fields must be provided");
+		return
 	}
-	else{	
-		if($scope.data === name) {
-			alert("Employee already exist");
+	if ($scope.data.length > 0) {
+			// we got items inside array
+			console.log($scope.data);
+
+			for(var i = 0; i < $scope.data.length; i++) {
+				if ($scope.data[i] === name) {
+					alert(fname+" "+lname+" is already exist");
+					return;
+				}	
+			}
+			$scope.db.$add(employeeItem);
+			$scope.dbAccount.$add(accountItem);
+	        alert("Employee "+fname+" "+lname+" Registered");
+	        window.location = "/2/view/owner/landing_employee.php";
+
+			// upload.put(setProfile)
+	  //       .then( setProfile => setProfile.ref.getDownloadURL() )
+	  //       .then( url => {
+	  //           employeeRef.push({
+	  //           	emp_image: url,
+	  //           	account: empAccount,
+			// 		emp_fname : fname,
+			// 		emp_lname : lname,
+			// 		emp_gender: gender,
+			// 		emp_phone : mobileno,
+			// 		emp_username: emp_acct_uname,
+			// 		emp_task: task,
+			// 		emp_workfor: username
+	  //           });
+	  //           $scope.dbAccount.$add(accountItem);
+	  //           alert("Employee Registered");
+	  //           window.location = "/2/view/owner/landing_employee.php";
+	  //       });
 		}
 		else {
 			$scope.db.$add(employeeItem);
 			$scope.dbAccount.$add(accountItem);
-			alert('Success');
-			window.location = "/2/view/owner/landing_employee.php";			
+	        alert("Employee "+name+" Registered");
+	        window.location = "/2/view/owner/landing_employee.php";
+			// upload.put(setProfile)
+	  //       .then( setProfile => setProfile.ref.getDownloadURL() )
+	  //       .then( url => {
+	  //           employeeRef.push({
+	  //           	emp_image: url,
+	  //           	account: empAccount,
+			// 		emp_fname : fname,
+			// 		emp_lname : lname,
+			// 		emp_gender: gender,
+			// 		emp_phone : mobileno,
+			// 		emp_username: emp_acct_uname,
+			// 		emp_task: task,
+			// 		emp_workfor: username
+	  //           });
+	  //           $scope.dbAccount.$add(accountItem);
+	  //           alert("Employee Registered");
+	  //           window.location = "/2/view/owner/landing_employee.php";
+	  //       });
 		}
-	}
+
+
+
+	// $scope.db.$add(employeeItem);
+			// $scope.dbAccount.$add(accountItem);
+			// alert('Success');
+			// window.location = "/2/view/owner/landing_employee.php";	
 		// $scope.employee.$add(employeeItem);
 		// alert('success');
 	}

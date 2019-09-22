@@ -34,7 +34,7 @@ myFirebase.controller('EditProfile', function EditProfile($scope, $location, $fi
 				lname = $scope.owner_lname;
 			}
 			
-			if (gender === undefined) {
+			if (gender === null) {
 				gender = $scope.owner_gender;
 			}
 			

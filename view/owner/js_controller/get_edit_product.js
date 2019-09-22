@@ -73,6 +73,7 @@ myFirebase.controller('EditProduct', function EditProduct($scope, $location, $fi
 		$scope.rop = productData.prod_rop;
 		$scope.disc = productData.discount.disc_value;
 		$scope.exp = productData.prod_expdate;
+		$scope.product_pic = productData.prod_image;
 
 		// window.reload();
 
@@ -133,12 +134,7 @@ myFirebase.controller('EditProduct', function EditProduct($scope, $location, $fi
 				var prod_disc_price = prod_price - prod_disc;
 			}
 
-			if($scope.prod_exp_date === null) {
-				var prod_exp_date = "No Expiration";
-			}
-			else {
-				var prod_exp_date = $scope.prod_exp_date.toLocaleDateString();
-			}
+			
 
 			var categoryItem = {
 				category_name: prod_cat
@@ -152,6 +148,13 @@ myFirebase.controller('EditProduct', function EditProduct($scope, $location, $fi
 			var productConditionItem = {
 				cond_count: 0,
 				cond_name: "New"
+			}
+
+			if($scope.prod_exp_date === undefined) {
+				var prod_exp_date = "No Expiration";
+			}
+			else {
+				var prod_exp_date = $scope.prod_exp_date.toLocaleDateString();
 			}
 
 			var qrcode = {

@@ -23,18 +23,21 @@ myFirebase.controller('FormController', function FormController($scope, $locatio
 								console.log(key);
 							}
 							if(data.acct_type === "Owner") {
-								if (data.acct_uname === username && data.acct_passw === password && data.acct_status === "Active") {
-									window.localStorage.setItem("user", JSON.stringify(childSnapshot.val().business));
-									// window.localStorage.setItem("account", JSON.stringify(childSnapshot.val().business.account));
-									window.localStorage.setItem("accountKey", JSON.stringify(key));
-									window.localStorage.setItem("accountItem", JSON.stringify(data));
-									window.localStorage.setItem("isLoggedIn", true);
-									window.location = "/2/view/owner/landing_dashboard.php";
+								if(data.acct_status === "Disable") {
+									alert("Account has been disabled, Please contact admin");
+								} else {
+									if (data.acct_uname === username && data.acct_passw === password && data.acct_status === "Active") {
+										window.localStorage.setItem("user", JSON.stringify(childSnapshot.val().business));
+										// window.localStorage.setItem("account", JSON.stringify(childSnapshot.val().business.account));
+										window.localStorage.setItem("accountKey", JSON.stringify(key));
+										window.localStorage.setItem("accountItem", JSON.stringify(data));
+										window.localStorage.setItem("isLoggedIn", true);
+										window.location = "/2/view/owner/landing_dashboard.php";
 
-								}
-								else {
-									// $scope.message= true;
-									window.alert("Incorrect Username or Password");
+									} else {
+										// $scope.message= true;
+										window.alert("Incorrect Username or Password");
+									}
 								}
 							}
 						});

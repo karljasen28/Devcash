@@ -156,6 +156,11 @@ hr{
                       <span style="color: red">*</span>
                       <input type="text" ng-model="enterprise_permit" class="form-control">
                     </div>
+                    <div class="form-group">
+                      <label for=""><b>TIN No.</b></label>
+                      <span style="color: red">*</span>
+                      <input type="text" ng-model="enterprise_tin" class="form-control">
+                    </div>
                     <div class="row form-group">
                         <div class="col ">
                           <label for=""><b>First Name</b></label>

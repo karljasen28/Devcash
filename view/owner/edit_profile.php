@@ -55,10 +55,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -202,13 +201,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="active has-sub">
@@ -252,22 +250,17 @@
                     </div><br>
                     <div class="row" ng-controller="EditProfilePic">
                         <div class="container" style="background-color: #fefefe;"><br>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="FormController">
                                 <div class="form-group">
-                                    <label class="control-label col-sm">
-                                        <div class="image img-cir img-120">    
-                                            <img src="images/fa fa-user-circle.png" id="img-output" width="100">
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm">Upload Image
-                                        <input class="form-control col-sm-4" type="file" file-model="profile">
-                                    </label>
-                                </div>
+                                        <img src="images/fa fa-user-circle.png" id="img-output" width="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Upload Image</label>
+                                            <input class="form-control col-sm-4" type="file" id="pic" onchange="loadfile(event)" ng-model="pic">
+                                    </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm">    
-                                    <button ng-click="editProfilePic()" type="submit" class="btn" style="background-color:#ec4e20;color: white; ">Upload</button>
+                                    <button ng-click="upload()" type="submit" class="btn" style="background-color:#ec4e20;color: white;">Upload</button>
                                     <button ng-click="back()" class="btn btn-danger">Cancel</button>
                                     </label>
                                 </div>

@@ -56,10 +56,9 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2" ng-controller="GetUserLogin">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
-                    <h4 class="name" ng-model="owner_name">{{owner_name}}</h4>
-                    
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -203,13 +202,12 @@
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
-                    <div class="account2">
-                        <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
-                        </div>
-                        <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                    <div class="account2" ng-controller="GetUserLogin">
+                    <div class="image img-cir img-120">
+                        <img src="{{profile}}" alt="Profile" />
                     </div>
+                    <h4 class="name" ng-model="owner_name">{{ owner_name }}</h4>                   
+                </div>
                     <nav class="navbar-sidebar">
                         <ul class="list-unstyled navbar__list">
                             <li class="active has-sub">
@@ -255,7 +253,7 @@
                         <div class="container" style="background-color: #fefefe;"><br>
                             <div class="form-group">
                                 <div class="image img-cir img-120">
-                                    <img src="images/fa fa-user-circle.png"/>
+                                    <img src="{{profile}}"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -280,7 +278,7 @@
                             </div>
                             <div class="form-group">
                                 <a class="col-sm-3" href="update_profile_account.php?id={{ownerid}}">Update Profile</a>
-                                <a class="col-sm-3" href="edit_profile.php">Edit Profile Picture</a>
+                                <a class="col-sm-3" href="edit_profile.php?id={{ownerid}}">Edit Profile Picture</a>
                             </div>    
                         </div>
                     </div><!-- END OF ROW --><br><br>

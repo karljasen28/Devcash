@@ -1,28 +1,38 @@
 'use strict';
+myFirebase.controller('EditProfilePic', function EditProfilePic($scope,$firebaseArray,$location){
+var ref = firebase.database().ref().child("datadevcash/owner");
+var refStorage = firebase.storage();
+var pictures = $firebaseArray(ref);
 
-myFirebase.controller('EditProfilePic', function EditProfilePic($scope, $firebaseArray, $firebaseStorage) {
-	var refStorage = firebase.storage().ref().child('images');
-	console.log(refStorage);
-	$scope.fileStorage = $firebaseStorage(refStorage);
+var user = JSON.parse(window.localStorage.getItem('user'));
+var username = user.owner_username;
 
-	$scope.editProfilePic = function() {
-	console.log($scope.profile);
-	var imageFile = $scope.profile;
-	refStorage.child(images).put(profile);
-    refStorage.on('state_changed', function(snapshot) {
-                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+var urlParams = new URLSearchParams(window.location.search);
+var id = urlParams.get('id');
 
-            }, function() {
-                //handle error
-            }, function() {
-           //url of storage file 
-                var downloadURL = storageRef.snapshot.downloadURL;
-                console.log(downloadURL)
-                //you will get url of snapshot
+var ownerRef = firebase.database().ref().child("datadevcash/owner/"+id+"/business");
+console.log(username);
+
+$scope.upload = function(){
+
+    var setProfile = pic.files[0];
+    var upload = refStorage.ref("Owner/" + ( + new Date() ) + setProfile.name);
+
+    upload.put(setProfile)
+        .then( setProfile => setProfile.ref.getDownloadURL() )
+        .then( url => {
+            ownerRef.update({
+                owner_image: url,
             });
-	}
+            user.owner_image = url;
+            window.localStorage.setItem("user", JSON.stringify(user));
+            alert("Profile Set");
+            window.location = "/2/view/owner/landing_account.php";
+        });
 
-	$scope.back = function{
-		window.location = "/2/view/owner/landing_account.php";
-	}
-});
+}
+
+$scope.back = function(){
+    window.location = "/2/view/owner/landing_account.php";
+}
+});// end of myFirebase controller
